@@ -1,15 +1,15 @@
 # MrsStax
 
 ## Introduction
-This application is a Slack Bot that uses OpenAI's language model to provide domain specific answers.  You provide the documents. 
+This application is a Slack Bot that uses OpenAI's GPT3 language model to provide domain specific answers.  You provide the documents. 
 
 This app includes the [OpenStax](https://openstax.org) textbook "Principles of Macroeconomics 3e" for demonstration purposes.
 
 Principles of Macroeconomics 3e is licensed under a Creative Commons Attribution 4.0 International (CC BY) license, which means that you can distribute, remix, and build upon the content, as long as you provide attribution to OpenStax and its content contributors.  
 
 ## Features
-- GPT3 based Slack Bot using your own documents (PDF or docx). 
-- Uses remote vector database  Weaviate (https://weaviate.io)
+- GPT3 based Slack Bot using your own documents (PDF or docx) for added context increasing accuracy. 
+- Utilizes a remote vector database from Weaviate (https://weaviate.io) for better speed and scaling. 
 
 ## Usage
 To use the MrsStax Slack Bot, the following environment variables need to be set in your .env file:
