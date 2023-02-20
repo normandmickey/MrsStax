@@ -71,7 +71,7 @@ cp env.example .env
  
    ```
    python ingest.py
-   pyton app.py
+   python app.py
    ```
 
 11. Visit your Slack and send direct message to your bot. 
