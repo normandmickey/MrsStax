@@ -15,7 +15,7 @@ client = weaviate.Client(
     }
 )
 
-nearText = {"concepts": ["Jim Crow"]}
+nearText = {"concepts": input("Enter Keyword: ")}
 
 result = (
     client.query

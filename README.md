@@ -39,7 +39,7 @@ cp env.example .env
      - Weaviate Version - Leave as default. 
      - Enable OIDC Authentication - Set to "disabled" as long as your documents are not confidential.  If you enable OIDC Auth additional configuration is required in your Python app.   
      - Click on "Create".
-     - Set your "WEAVIATE_URL" in your .env file.  You can find your URL by clicking on the connection icon at the top of the page. It will be https://<Cluster-Id>.weaviate.network.
+     - Set your "WEAVIATE_URL" in your .env file.  You can find your URL by clicking on the connection icon at the top of the page. It will be https://Your-Cluster-Id.weaviate.network.
 
 3. Create new Slack App - https://api.slack.com
 
@@ -65,7 +65,7 @@ cp env.example .env
 
 8. Install App into your Slack. 
 
-9. Upload PDF or DOCX files to to "DOCS" folder. 
+9. Upload or copy your  PDF or DOCX files to to "DOCS" folder.  
 
 10. Run the following commands.
  
@@ -79,8 +79,12 @@ cp env.example .env
 If you left the "Principles of Macroeconomics 3e" PDF and pdf1.txt in your docs directory you should be able to ask your bot economics related questions. 
 For example. 
 
-1. Residents of the town of Smithfield like to consume hams, but each ham requires 10 people to produce it and takes a month. If the town has a total of 100 people, what is the maximum amount of ham the residents can consume in a month?
+Q1. Residents of the town of Smithfield like to consume hams, but each ham requires 10 people to produce it and takes a month. If the town has a total of 100 people, what is the maximum amount of ham the residents can consume in a month?
 
-2. Why might Belgium, France, Italy, and Sweden have a higher export to GDP ratio than the United States? 
+Q2. Why might Belgium, France, Italy, and Sweden have a higher export to GDP ratio than the United States? 
 
-3. What is dumping? Why does prohibiting it often work better in theory than in practice?
+Q3. What is dumping? Why does prohibiting it often work better in theory than in practice?
+
+12. Your vector database need to be reindex every time you add or remove documents from your docs folder. To to this simply run ```python ingest.py```. 
+
+13. You can test your Weaviate database with the following command ```python neartext.py``` and entering a keyword related to your documents.  
