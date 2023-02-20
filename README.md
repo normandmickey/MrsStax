@@ -9,7 +9,7 @@ Principles of Macroeconomics 3e is licensed under a Creative Commons Attribution
 
 ## Features
 - GPT3 based Slack Bot using your own documents (PDF or docx) for added context and increased accuracy. 
-- Utilizes a remote vector database from Weaviate (https://weaviate.io) (better speed and scaling). 
+- Utilizes a remote vector database from Weaviate (https://weaviate.io) for faster speed and scaling. 
 
 ## Usage
 To use the MrsStax Slack Bot, the following environment variables need to be set in your .env file:
