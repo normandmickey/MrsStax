@@ -2,7 +2,10 @@
 
 ## Introduction
 This application is a Slack Bot that uses OpenAI's language model to provide domain specific answers.  You provide the documents. 
-This app includes the OpenStax textbook "Principles of Macroeconomics 3e" for demonstration purposes. 
+
+This app includes the [OpenStax](https://openstax.org) textbook "Principles of Macroeconomics 3e" for demonstration purposes.
+
+Principles of Macroeconomics 3e is licensed under a Creative Commons Attribution 4.0 International (CC BY) license, which means that you can distribute, remix, and build upon the content, as long as you provide attribution to OpenStax and its content contributors.  
 
 ## Features
 - GPT3 based Slack Bot using your own documents (PDF or docx). 
@@ -18,7 +21,7 @@ To use the Assistant Slack Bot, the following environment variables need to be s
 ## Installation
 Requires Python3.10 or higher
 
-Clone this repo and the following commands 
+Clone this repo and run the following commands 
 
 ```
 python3 -m venv venv
