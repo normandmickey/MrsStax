@@ -2,6 +2,7 @@
 
 ## Introduction
 This application is a Slack Bot that uses OpenAI's language model to provide domain specific answers.  You provide the documents. 
+This app includes the OpenStax textbook "Principles of Macroeconomics 3e" for demonstration purposes. 
 
 ## Features
 - GPT3 based Slack Bot using your own documents (PDF or docx). 
@@ -63,3 +64,9 @@ cp env.example .env
 
 10. Visit your Slack and send direct message to your bot. 
 
+If you left the "Principles of Macroeconomics 3e" in your docs directory you should be able to ask your bot economics related questions. 
+For example. 
+
+1. Residents of the town of Smithfield like to consume hams, but each ham requires 10 people to produce it and takes a month. If the town has a total of 100 people, what is the maximum amount of ham the residents can consume in a month?
+
+2. Why might Belgium, France, Italy, and Sweden have a higher export to GDP ratio than the United States? 
