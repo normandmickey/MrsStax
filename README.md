@@ -30,7 +30,16 @@ pip install -r requirements.txt
 cp env.example .env
 ```
 
-1. Requires OpenAi API Key, set OPENAI_API_TOKEN in .env file.
+1. Set your OPENAI_API_TOKEN in the .env file.
+
+2. Register with [Weaviate](https://auth.wcs.api.weaviate.io/auth/realms/SeMI/protocol/openid-connect/registrations?client_id=wcs&response_type=code&redirect_uri=https://console.weaviate.io/registration-login). 
+   - Click on "Create a Weaviate Cluster". 
+     - Name - Give your cluster a name or leave blank to be assigned a random one. 
+     - Subscription Tier - "Sandbox Free". 
+     - Weaviate Version - Leave as default. 
+     - Enable OIDC Authentication - Set to "disabled" as long as your documents are not confidential.  If you enable OIDC Auth additional configuration is required in your Python app.   
+     - Click on "Create".
+     - Set your "WEAVIATE_URL" in your .env file.  You can find your URL by clicking on the connection icon at the top of the page. It will be https://<Cluster-Id>.weaviate.network.
 
 2. Create new Slack App - https://api.slack.com
 
