@@ -11,4 +11,3 @@ build/
 .mypy_cache/
 __pycache__/
 venv
-docs/pdf1.txt
