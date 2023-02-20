@@ -15,12 +15,51 @@ To use the Assistant Slack Bot, the following environment variables need to be s
 - WEAVIATE_URL: URL for Weaviate instance. 
 
 ## Installation
-Requires Python3
-Run the follwoing commands 
+Requires Python3.10 or higher
 
+Run the following commands 
+
+```
 python3 -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
-
 cp env.example .env
-nano .env (to update API tokens for Slack, OpenAI and Weaviate URL)
+```
+
+1. Requires OpenAi API Key, set OPENAI_API_TOKEN in .env file.
+
+2. Create new Slack App - https://api.slack.com
+
+3. Click on "Basic Information"
+   - Click on "Generate Token and Scopes"
+     - Token Name = "App Token"
+     - App Scope = "connections:write"
+
+   - Copy "App Token" and paste it into your .env file as "SLACK_APP_TOKEN". 
+
+4. Click on "Socket Mode"
+   - Click on "Enable"
+
+5. Click on "OAuth & Permissions" and add the following permissions. 
+   - app_mentions:read
+   - chat:write
+   - chat:write.public
+   - im:history
+
+   - Copy "Bot User OAuth Token" and paste it into your .env file as "SLACK_BOT_TOKEN". 
+
+6. Click on "App Home" and make sure "Messages Tab" is enabled and check the box for "Allow users to send Slash commands and messages from the messages tab". 
+
+7. Install App into your Slack. 
+
+8. Upload PDF or DOCX files to to "DOCS" folder. 
+
+9. Run the following commands.
+ 
+   ```
+   python ingest.py
+   pyton app.py
+   ```
+
+10. Visit your Slack and send direct message to your bot. 
+
