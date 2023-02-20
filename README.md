@@ -1,7 +1,7 @@
 # MrsStax
 
 ## Introduction
-This application is a Slack Bot that uses OpenAI's GPT3 language model to provide domain specific answers.  You provide the documents. 
+This application is a Slack Bot that uses Langchain and OpenAI's GPT3 language model to provide domain specific answers. You provide the documents. 
 
 This app includes the [OpenStax](https://openstax.org) textbook "Principles of Macroeconomics 3e" for demonstration purposes.
 
