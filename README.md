@@ -12,7 +12,7 @@ Principles of Macroeconomics 3e is licensed under a Creative Commons Attribution
 - Uses remote vector database  Weaviate (https://weaviate.io)
 
 ## Usage
-To use the Assistant Slack Bot, the following environment variables need to be set:
+To use the MrsStax Slack Bot, the following environment variables need to be set in your .env file:
 - SLACK_BOT_TOKEN: Token for the Slack Bot.
 - SLACK_APP_TOKEN: Token for the Slack app.
 - OPENAI_API_TOKEN: Token for OpenAi
@@ -41,19 +41,19 @@ cp env.example .env
      - Click on "Create".
      - Set your "WEAVIATE_URL" in your .env file.  You can find your URL by clicking on the connection icon at the top of the page. It will be https://<Cluster-Id>.weaviate.network.
 
-2. Create new Slack App - https://api.slack.com
+3. Create new Slack App - https://api.slack.com
 
-3. Click on "Basic Information"
+4. Click on "Basic Information"
    - Click on "Generate Token and Scopes"
      - Token Name = "App Token"
      - App Scope = "connections:write"
 
    - Copy "App Token" and paste it into your .env file as "SLACK_APP_TOKEN". 
 
-4. Click on "Socket Mode"
+5. Click on "Socket Mode"
    - Click on "Enable"
 
-5. Click on "OAuth & Permissions" and add the following permissions. 
+6. Click on "OAuth & Permissions" and add the following permissions. 
    - app_mentions:read
    - chat:write
    - chat:write.public
@@ -61,24 +61,26 @@ cp env.example .env
 
    - Copy "Bot User OAuth Token" and paste it into your .env file as "SLACK_BOT_TOKEN". 
 
-6. Click on "App Home" and make sure "Messages Tab" is enabled and check the box for "Allow users to send Slash commands and messages from the messages tab". 
+7. Click on "App Home" and make sure "Messages Tab" is enabled and check the box for "Allow users to send Slash commands and messages from the messages tab". 
 
-7. Install App into your Slack. 
+8. Install App into your Slack. 
 
-8. Upload PDF or DOCX files to to "DOCS" folder. 
+9. Upload PDF or DOCX files to to "DOCS" folder. 
 
-9. Run the following commands.
+10. Run the following commands.
  
    ```
    python ingest.py
    pyton app.py
    ```
 
-10. Visit your Slack and send direct message to your bot. 
+11. Visit your Slack and send direct message to your bot. 
 
-If you left the "Principles of Macroeconomics 3e" in your docs directory you should be able to ask your bot economics related questions. 
+If you left the "Principles of Macroeconomics 3e" PDF and pdf1.txt in your docs directory you should be able to ask your bot economics related questions. 
 For example. 
 
 1. Residents of the town of Smithfield like to consume hams, but each ham requires 10 people to produce it and takes a month. If the town has a total of 100 people, what is the maximum amount of ham the residents can consume in a month?
 
 2. Why might Belgium, France, Italy, and Sweden have a higher export to GDP ratio than the United States? 
+
+3. What is dumping? Why does prohibiting it often work better in theory than in practice?
