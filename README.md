@@ -85,6 +85,9 @@ For example.
 
   - Q3. What is dumping? Why does prohibiting it often work better in theory than in practice?
 
-12. Your vector database need to be reindexed every time you add or remove documents from your docs folder. To do this simply run ```python ingest.py```. 
+12. Your vector database needs to be re-indexed each time you add or remove documents from your docs folder. To do this simply run 
+```python ingest.py```. 
 
-13. You can test your Weaviate database with the following command ```python neartext.py``` and entering a keyword related to your documents.  
+13. You can test your Weaviate database with the following command 
+    ```python neartext.py``` 
+    and entering a keyword related to your documents.  
