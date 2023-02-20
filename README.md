@@ -17,7 +17,7 @@ To use the Assistant Slack Bot, the following environment variables need to be s
 ## Installation
 Requires Python3.10 or higher
 
-Run the following commands 
+Clone this repo and the following commands 
 
 ```
 python3 -m venv venv
