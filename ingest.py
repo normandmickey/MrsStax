@@ -13,7 +13,7 @@ OPENAI_API_TOKEN = os.getenv('OPENAI_API_TOKEN')
 WEAVIATE_URL = os.getenv('WEAVIATE_URL')
 
 
-# Here we convert pdf files to text
+# Here we extract the text from your pdf files.
 files = list(Path("docs/").glob("**/*.pdf"))
 count = 0
 for file in files:
@@ -23,7 +23,7 @@ for file in files:
     with open(filename, 'w') as f:
          f.write(text)
 
-# Here we convert docx files to text
+# Here we extract the text from your docx files. 
 files = list(Path("docs/").glob("**/*.docx"))
 count = 0
 for file in files:
