@@ -1,4 +1,4 @@
-"""This is the logic for ingesting Notion data into LangChain."""
+"""This is the logic for ingesting PDF and DOCX files into LangChain."""
 import os
 from pathlib import Path
 from langchain.text_splitter import CharacterTextSplitter
@@ -48,7 +48,7 @@ def check_batch_result(results: dict):
         if "error" in result["result"]["errors"]:
           print(result["result"])
 
-# Here we load in the data in the format that Notion exports it in.
+# Here we load in the data from the text files created above. 
 ps = list(Path("docs/").glob("**/*.txt"))
 
 docs = []
