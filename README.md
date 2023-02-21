@@ -1,4 +1,4 @@
-# MrsStax
+# QA Slack Bot - MrsStax
 
 ## Introduction
 This application is a Slack Bot that uses Langchain and OpenAI's GPT3 language model to provide domain specific answers. You provide the documents. 
