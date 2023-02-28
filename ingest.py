@@ -61,7 +61,7 @@ for p in ps:
 # Here we split the documents, as needed, into smaller chunks.
 # We do this due to the context limits of the LLMs.
 text_splitter = RecursiveCharacterTextSplitter(
-    chunk_size=2000,)
+    chunk_size=2000)
 
 documents = text_splitter.create_documents(docs, metadatas=metadatas)
 
