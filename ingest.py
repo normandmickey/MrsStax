@@ -1,7 +1,7 @@
 """This is the logic for ingesting PDF and DOCX files into LangChain."""
 import os
 from pathlib import Path
-from langchain.text_splitter import RecursiveCharacterTextSplitter
+from langchain.text_splitter import RecursiveCharacterTextSplitter, CharacterTextSplitter
 from pdfminer.high_level import extract_text
 import weaviate
 from langchain.embeddings import OpenAIEmbeddings
@@ -60,9 +60,15 @@ for p in ps:
 
 # Here we split the documents, as needed, into smaller chunks.
 # We do this due to the context limits of the LLMs.
-text_splitter = RecursiveCharacterTextSplitter(
-    chunk_size=2000)
-
+# text_splitter = RecursiveCharacterTextSplitter(
+#     chunk_size=3000,
+#     separator='\n\n',
+#     )
+text_splitter = CharacterTextSplitter(
+    chunk_size=1000,
+    chunk_overlap=200,
+    separator='\n\n',
+)
 documents = text_splitter.create_documents(docs, metadatas=metadatas)
 
 client = weaviate.Client(

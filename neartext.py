@@ -25,4 +25,6 @@ result = (
     .do()
 )
 
-print(json.dumps(result, indent=4))
+# print(json.dumps(result, indent=4))
+
+print(result)

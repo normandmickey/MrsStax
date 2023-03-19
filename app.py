@@ -6,6 +6,32 @@ from slack_bolt.adapter.socket_mode import SocketModeHandler
 from langchain import OpenAI, ConversationChain, LLMChain, PromptTemplate
 from langchain.chains import SequentialChain, LLMChain, ChatVectorDBChain
 from langchain.vectorstores import Weaviate
+from langchain.llms.openai import BaseOpenAI, OpenAIChat
+from langchain.chains import ChatVectorDBChain
+from langchain.chains.llm import LLMChain
+from langchain.chains.chat_vector_db.prompts import CONDENSE_QUESTION_PROMPT
+from langchain.chains.question_answering import load_qa_chain
+from langchain.callbacks.base import CallbackManager, AsyncCallbackManager, BaseCallbackHandler, BaseCallbackManager
+from langchain.callbacks.streaming_stdout import StreamingStdOutCallbackHandler
+from langchain.chains.chat_vector_db.prompts import CONDENSE_QUESTION_PROMPT, QA_PROMPT
+
+def _create_callback_manager(is_async: bool) -> BaseCallbackManager:
+    if is_async:
+        return AsyncCallbackManager
+    else:
+        return CallbackManager
+
+
+is_async: bool = False
+stream_handler: BaseCallbackHandler = StreamingStdOutCallbackHandler()
+
+PREFIX_MESSAGE = [{
+    'role': 'system',
+    'content': '''
+        あなたは関西人のおっちゃんです。
+        一人称は「おざりん」で、全ての回答に関西弁で口語で解答してください。
+    '''
+}]
 
 load_dotenv()
 
@@ -26,26 +52,34 @@ vectorstore = Weaviate(client, "Paragraph", "content")
 # Initializes your app with your bot token and socket mode handler
 app = App(token=SLACK_BOT_TOKEN)
 
-#Langchain implementation
-template = """
-    Using only the following context answer the question at the end. If you can't find the answer in the context below, just say that you don't know. Do not make up an answer.
-    {chat_history}
-    Human: {question}
-    Assistant:"""
+_callback_manager = _create_callback_manager(is_async)
+stream_manager = _callback_manager([stream_handler])
 
-prompt = PromptTemplate(
-    input_variables=["chat_history", "question"], 
-    template=template
+stream_llm = OpenAIChat(
+            temperature=0.8, max_tokens=1024, streaming=True,
+            callback_manager=stream_manager, verbose=True,
+            prefix_messages=PREFIX_MESSAGE
+)
+doc_chain = load_qa_chain(stream_llm, chain_type="stuff", prompt=QA_PROMPT)
+
+question_llm = OpenAIChat(temperature=0.4, max_tokens=256, verbose=True)
+question_generator = LLMChain(llm=question_llm, prompt=CONDENSE_QUESTION_PROMPT)
+chain = ChatVectorDBChain(
+    vectorstore=vectorstore,
+    combine_docs_chain=doc_chain,
+    question_generator=question_generator,
+    top_k_docs_for_context=2,
 )
 
 
-chatgpt_chain = ChatVectorDBChain.from_llm(
-     llm=OpenAI(temperature=0,max_tokens=500),
-     vectorstore=vectorstore
-)
+
+# chatgpt_chain = ChatVectorDBChain.from_llm(
+#      llm=OpenAI(temperature=0,max_tokens=2000),
+#      vectorstore=vectorstore
+# )
 
 
-seq_chain = SequentialChain(chains=[chatgpt_chain], input_variables=["chat_history", "question"])
+seq_chain = SequentialChain(chains=[chain], input_variables=["chat_history", "question"])
 
 #Message handler for Slack
 @app.message(".*")
@@ -55,7 +89,15 @@ def message_handler(message, say, logger):
     output = seq_chain.run(chat_history = "", question = message['text'], verbose=True)
     say(output)
 
+@app.event("app_mention")
+def handle_app_mention_events(body, say, logger):
+    logger.info(body)
+    message = body["event"]
+    print(message)
+    output = seq_chain.run(chat_history = "", question = message['text'], verbose=True)
+    say(output)
 
 # Start your app
 if __name__ == "__main__":
+    print(app)
     SocketModeHandler(app, SLACK_APP_TOKEN).start()
