@@ -60,21 +60,26 @@ cp env.example .env
    - im:history
 
    - Copy "Bot User OAuth Token" and paste it into your .env file as "SLACK_BOT_TOKEN". 
+   
 
 7. Click on "App Home" and make sure "Messages Tab" is enabled and check the box for "Allow users to send Slash commands and messages from the messages tab". 
 
-8. Install App into your Slack. 
+8. Click on "Event Subscriptions" then "Enable Events" and add the following events under "Subscribe to Bot Events". 
+   - app_mention
+   - message.im
 
-9. Upload or copy your .pdf or .docx files to the "docs" folder. 
+9. Install App into your Slack. 
 
-10. Run the following commands.
+10. Upload or copy your .pdf or .docx files to the "docs" folder. 
+
+11. Run the following commands.
  
    ```
    python ingest.py
    python app.py
    ```
 
-11. Visit your Slack and send direct message to your bot. 
+12. Visit your Slack and send direct message to your bot. 
 
 If you left the two original files (Macroeconomics3e-WEB.pdf, pdf1.txt) in your docs directory you should be able to ask your bot economics related questions. 
 For example. 
@@ -85,9 +90,9 @@ For example.
 
   - Q3. What is dumping? Why does prohibiting it often work better in theory than in practice?
 
-12. Your vector database needs to be re-indexed each time you add or remove documents from your docs folder. To do this simply run 
+13. Your vector database needs to be re-indexed each time you add or remove documents from your docs folder. To do this simply run 
 ```python ingest.py```. 
 
-13. You can test your Weaviate database with the following command 
+14. You can test your Weaviate database with the following command 
     ```python neartext.py``` 
     and entering a keyword related to your documents.  
