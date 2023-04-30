@@ -14,8 +14,13 @@ SLACK_APP_TOKEN = os.getenv('SLACK_APP_TOKEN')
 OPENAI_API_TOKEN = os.getenv('OPENAI_API_TOKEN')
 WEAVIATE_URL = os.getenv('WEAVIATE_URL')
 
+
 client = weaviate.Client(
     url=WEAVIATE_URL,
+    auth_client_secret=weaviate.AuthClientPassword(
+        username = "superstj@gmail.com",  # Replace w/ your WCS username
+        password = "STj2005530779@",  # Replace w/ your WCS password
+    ),
     additional_headers={
         'X-OpenAI-Api-Key': OPENAI_API_TOKEN
     }
