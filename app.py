@@ -28,6 +28,8 @@ vectorstore = Weaviate(client, "Paragraph", "content")
 # Initializes your app with your bot token and socket mode handler
 app = App(token=SLACK_BOT_TOKEN)
 
+gpt4_chain = LLMChain("gpt4", temperature=0.7, max_tokens=50)
+
 #Langchain implementation
 template = """
     Using only the following context answer the question at the end. If you can't find the answer in the context below, just say that you don't know. Do not make up an answer.
@@ -41,10 +43,13 @@ prompt = PromptTemplate(
 )
 
 
+
 chatgpt_chain = ChatVectorDBChain.from_llm(
-     llm=OpenAI(temperature=0,max_tokens=500),
-     vectorstore=vectorstore
-)
+       llm=gpt4_chain,
+       vectorstore=vectorstore
+   )
+
+
 
 
 seq_chain = SequentialChain(chains=[chatgpt_chain], input_variables=["chat_history", "question"])
