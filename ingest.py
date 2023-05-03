@@ -1,6 +1,8 @@
+"""This is the logic for ingesting PDF and DOCX files into LangChain."""
 import os
 from pathlib import Path
 from langchain.text_splitter import RecursiveCharacterTextSplitter
+from pdfminer.high_level import extract_text
 import weaviate
 from langchain.embeddings import OpenAIEmbeddings
 from dotenv import load_dotenv
@@ -10,15 +12,51 @@ load_dotenv()
 OPENAI_API_TOKEN = os.getenv('OPENAI_API_TOKEN')
 WEAVIATE_URL = os.getenv('WEAVIATE_URL')
 
-# Here we load in the data from the text files.
-txt_files = list(Path("docs/").glob("**/*.txt"))
+
+# Here we extract the text from your pdf files.
+files = list(Path("docs/").glob("**/*.pdf"))
+count = 0
+for file in files:
+    count += 1
+    filename = "docs/" + "pdf" + str(count) + ".txt"
+    text = extract_text(file)
+    with open(filename, 'w') as f:
+         f.write(text)
+
+# Here we extract the text from your docx files. 
+files = list(Path("docs/").glob("**/*.docx"))
+count = 0
+for file in files:
+    count += 1
+    filename = "docs/" + "docx" + str(count) + ".txt"
+    text = docx2txt.process(file)
+    with open(filename, 'w') as f:
+        f.write(text)
+
+def check_batch_result(results: dict):
+  """
+  Check batch results for errors.
+  Parameters
+  ----------
+  results : dict
+      The Weaviate batch creation return value.
+  """
+
+  if results is not None:
+    for result in results:
+      if "result" in result and "errors" in result["result"]:
+        if "error" in result["result"]["errors"]:
+          print(result["result"])
+
+# Here we load in the data from the text files created above. 
+ps = list(Path("docs/").glob("**/*.txt"))
 
 docs = []
 metadatas = []
-for txt_file in txt_files:
-    with open(txt_file) as f:
+for p in ps:
+    with open(p) as f:
         docs.append(f.read())
-        metadatas.append({"source": txt_file})
+        metadatas.append({"source": p})
 
 # Here we split the documents, as needed, into smaller chunks.
 # We do this due to the context limits of the LLMs.
@@ -79,13 +117,14 @@ client.schema.create(schema)
 
 print("Ingesting data...")
 
-# Batch ingestion with error handling callback.
-def check_batch_result(results: dict):
-    if results is not None:
-        for result in results:
-            if "result" in result and "errors" in result["result"]:
-                if "error" in result["result"]["errors"]:
-                    print(result["result"])
+client.batch(
+  batch_size=100,
+  dynamic=True,
+  creation_time=5,
+  timeout_retries=3,
+  connection_error_retries=3,
+  callback=check_batch_result,
+)
 
 with client.batch as batch:
     for text in documents:
@@ -93,12 +132,3 @@ with client.batch as batch:
             {"content": text.page_content, "source": str(text.metadata["source"])},
             "Paragraph",
         )
-
-client.batch(
-    batch_size=100,
-    dynamic=True,
-    creation_time=5,
-    timeout_retries=3,
-    connection_error_retries=3,
-    callback=check_batch_result,
-)
