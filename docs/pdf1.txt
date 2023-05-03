@@ -47178,24 +47178,11 @@ Great Depression 154, 274,
 
 diversify 348
 
-a percentage of GDP 254
-
-318, 331, 480
-
 division of labor 12, 492
 
 dollarize 386
 
 double coincidence of wants
-
-F
-factors of production 59
-
-Great Recession 143, 154, 230,
-
-318
-
-gross domestic product (GDP)
 
 338
 
@@ -47209,6 +47196,19 @@ durable goods 143
 
 E
 East Asian Tigers 463
+
+a percentage of GDP 254
+
+318, 331, 480
+
+F
+factors of production 59
+
+Great Recession 143, 154, 230,
+
+318
+
+gross domestic product (GDP)
 
 Federal Deposit Insurance
 

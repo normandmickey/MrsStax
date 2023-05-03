@@ -9,14 +9,13 @@ Principles of Macroeconomics 3e is licensed under a Creative Commons Attribution
 
 ## Features
 - GPT3 based Slack Bot using your own documents (PDF or docx) for added context and increased accuracy. 
-- Utilizes a remote vector database from Weaviate (https://weaviate.io) for faster speed and scaling. 
+- Utilizes a local vector database (FAISS-CPU) 
 
 ## Usage
 To use the MrsStax Slack Bot, the following environment variables need to be set in your .env file:
 - SLACK_BOT_TOKEN: Token for the Slack Bot.
 - SLACK_APP_TOKEN: Token for the Slack app.
 - OPENAI_API_TOKEN: Token for OpenAi
-- WEAVIATE_URL: URL for Weaviate instance. 
 
 ## Installation
 Requires Python3.10 or higher
@@ -32,28 +31,19 @@ cp env.example .env
 
 1. Set your OPENAI_API_TOKEN in the .env file.
 
-2. Register with [Weaviate](https://auth.wcs.api.weaviate.io/auth/realms/SeMI/protocol/openid-connect/registrations?client_id=wcs&response_type=code&redirect_uri=https://console.weaviate.io/registration-login). 
-   - Click on "Create a Weaviate Cluster". 
-     - Name - Give your cluster a name or leave blank to be assigned a random one. 
-     - Subscription Tier - "Sandbox Free". 
-     - Weaviate Version - Leave as default. 
-     - Enable OIDC Authentication - Set to "disabled" as long as your documents are not confidential.  If you enable OIDC Auth additional configuration is required in your Python app.   
-     - Click on "Create".
-     - Set your "WEAVIATE_URL" in your .env file.  You can find your URL by clicking on the connection icon at the top of the page. It will be https://Your-Cluster-Id.weaviate.network.
+2. Create new Slack App - https://api.slack.com
 
-3. Create new Slack App - https://api.slack.com
-
-4. Click on "Basic Information"
+3. Click on "Basic Information"
    - Click on "Generate Token and Scopes"
      - Token Name = "App Token"
      - App Scope = "connections:write"
 
    - Copy "App Token" and paste it into your .env file as "SLACK_APP_TOKEN". 
 
-5. Click on "Socket Mode"
+4. Click on "Socket Mode"
    - Click on "Enable"
 
-6. Click on "OAuth & Permissions" and add the following permissions. 
+5. Click on "OAuth & Permissions" and add the following permissions. 
    - app_mentions:read
    - chat:write
    - chat:write.public
@@ -61,20 +51,20 @@ cp env.example .env
 
    - Copy "Bot User OAuth Token" and paste it into your .env file as "SLACK_BOT_TOKEN". 
 
-7. Click on "App Home" and make sure "Messages Tab" is enabled and check the box for "Allow users to send Slash commands and messages from the messages tab". 
+6. Click on "App Home" and make sure "Messages Tab" is enabled and check the box for "Allow users to send Slash commands and messages from the messages tab". 
 
-8. Install App into your Slack. 
+7. Install App into your Slack. 
 
-9. Upload or copy your .pdf or .docx files to the "docs" folder. 
+8. Upload or copy your .pdf or .docx files to the "docs" folder. 
 
-10. Run the following commands.
+9. Run the following commands.
  
    ```
    python ingest.py
    python app.py
    ```
 
-11. Visit your Slack and send direct message to your bot. 
+10. Visit your Slack and send direct message to your bot. 
 
 If you left the two original files (Macroeconomics3e-WEB.pdf, pdf1.txt) in your docs directory you should be able to ask your bot economics related questions. 
 For example. 
@@ -85,9 +75,6 @@ For example.
 
   - Q3. What is dumping? Why does prohibiting it often work better in theory than in practice?
 
-12. Your vector database needs to be re-indexed each time you add or remove documents from your docs folder. To do this simply run 
+11. Your vector database needs to be re-indexed each time you add or remove documents from your docs folder. To do this simply run 
 ```python ingest.py```. 
 
-13. You can test your Weaviate database with the following command 
-    ```python neartext.py``` 
-    and entering a keyword related to your documents.  

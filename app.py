@@ -1,27 +1,29 @@
 import os
 from dotenv import load_dotenv
-import weaviate
 from slack_bolt import App
 from slack_bolt.adapter.socket_mode import SocketModeHandler
 from langchain import OpenAI, ConversationChain, LLMChain, PromptTemplate
-from langchain.chains import SequentialChain, LLMChain, ChatVectorDBChain
-from langchain.vectorstores import Weaviate
+from langchain.chains import SequentialChain, LLMChain, ChatVectorDBChain, VectorDBQAWithSourcesChain
+import faiss, pickle
 
 load_dotenv()
 
 SLACK_BOT_TOKEN = os.getenv('SLACK_BOT_TOKEN')
 SLACK_APP_TOKEN = os.getenv('SLACK_APP_TOKEN')
 OPENAI_API_TOKEN = os.getenv('OPENAI_API_TOKEN')
-WEAVIATE_URL = os.getenv('WEAVIATE_URL')
 
-client = weaviate.Client(
-    url=WEAVIATE_URL,
-    additional_headers={
-        'X-OpenAI-Api-Key': OPENAI_API_TOKEN
-    }
-)
+# Load the LangChain.
+index = faiss.read_index("stax_docs.index")
 
-vectorstore = Weaviate(client, "Paragraph", "content")
+with open("stax_faiss_store.pkl", "rb") as f:
+    store = pickle.load(f)
+
+store.index = index
+
+# Initializes your app with your bot token and socket mode handler
+app = App(token=SLACK_BOT_TOKEN)
+
+chatgpt_chain = VectorDBQAWithSourcesChain.from_chain_type(OpenAI(temperature=0.2, max_tokens=300), chain_type="stuff", vectorstore=store)
 
 # Initializes your app with your bot token and socket mode handler
 app = App(token=SLACK_BOT_TOKEN)
@@ -41,7 +43,7 @@ prompt = PromptTemplate(
 
 chatgpt_chain = ChatVectorDBChain.from_llm(
      llm=OpenAI(temperature=0,max_tokens=500),
-     vectorstore=vectorstore
+     vectorstore=store
 )
 
 
